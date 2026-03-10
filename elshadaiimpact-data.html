@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elshadaiimpact – Affordable Data Packages</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #F5C400;
+    --navy: #0D2B6B;
+    --dark: #071840;
+    --light: #FFF8DC;
+    --accent: #FFE044;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--gold);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 60px;
+  }
+
+  /* HEADER */
+  .header {
+    width: 100%;
+    background: var(--navy);
+    text-align: center;
+    padding: 28px 20px 22px;
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+    padding-bottom: 52px;
+  }
+
+  .header .brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 8vw, 3.2rem);
+    color: var(--gold);
+    letter-spacing: 3px;
+    line-height: 1;
+  }
+
+  .header .tagline {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ICONS ROW */
+  .icons-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin: 28px 0 10px;
+    font-size: 1.6rem;
+  }
+
+  /* SUBTITLE */
+  .subtitle {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    color: var(--navy);
+    text-align: center;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .subtitle-sub {
+    text-align: center;
+    color: var(--navy);
+    font-size: 0.85rem;
+    opacity: 0.75;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+
+  /* PACKAGES GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    width: 100%;
+    max-width: 520px;
+    padding: 0 18px;
+  }
+
+  .pkg-card {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 18px 10px 14px;
+    text-align: center;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.18s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pkg-card::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 80px; height: 80px;
+    background: rgba(245,196,0,0.08);
+    border-radius: 50%;
+  }
+
+  .pkg-card:hover, .pkg-card.selected {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(13,43,107,0.35);
+  }
+
+  .pkg-card.selected {
+    background: var(--dark);
+  }
+
+  .pkg-card.selected .check {
+    display: flex;
+  }
+
+  .check {
+    display: none;
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 20px; height: 20px;
+    background: var(--gold);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    color: var(--navy);
+    font-weight: 900;
+  }
+
+  .pkg-data {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .pkg-label {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 2px;
+  }
+
+  .pkg-price {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #fff;
+    margin-top: 10px;
+    background: rgba(245,196,0,0.15);
+    border-radius: 20px;
+    padding: 3px 10px;
+    display: inline-block;
+  }
+
+  /* SELECTED SUMMARY */
+  .summary-box {
+    width: 100%;
+    max-width: 520px;
+    margin: 22px 18px 0;
+    padding: 0 18px;
+  }
+
+  .summary-card {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 2px dashed rgba(245,196,0,0.3);
+    min-height: 60px;
+  }
+
+  .summary-text {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  .summary-text.active {
+    color: #fff;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .summary-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+  }
+
+  /* WHATSAPP BUTTON */
+  .wa-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #25D366;
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 36px;
+    cursor: pointer;
+    width: calc(100% - 36px);
+    max-width: 484px;
+    margin-top: 18px;
+    transition: all 0.2s;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(37,211,102,0.4);
+    letter-spacing: 0.5px;
+  }
+
+  .wa-btn:hover {
+    background: #1ebe5c;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(37,211,102,0.5);
+  }
+
+  .wa-btn:active { transform: scale(0.97); }
+
+  .wa-btn svg { width: 26px; height: 26px; flex-shrink: 0; }
+
+  .wa-btn.disabled {
+    background: rgba(13,43,107,0.5);
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+    pointer-events: none;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: calc(100% - 36px);
+    max-width: 484px;
+    height: 1px;
+    background: rgba(13,43,107,0.2);
+    margin: 22px 0 0;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 28px;
+    text-align: center;
+    color: var(--navy);
+    opacity: 0.65;
+    font-size: 0.78rem;
+  }
+
+  .footer span {
+    font-weight: 800;
+    opacity: 1;
+  }
+
+  /* PULSE ANIMATION */
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(37,211,102,0.5); }
+    50% { box-shadow: 0 0 0 10px rgba(37,211,102,0); }
+  }
+
+  .wa-btn:not(.disabled) {
+    animation: pulse 2.5s infinite;
+  }
+
+  @keyframes fadeIn {
+    from { opacity:0; transform:translateY(16px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+
+  .pkg-card {
+    animation: fadeIn 0.4s ease both;
+  }
+  .pkg-card:nth-child(1){animation-delay:.05s}
+  .pkg-card:nth-child(2){animation-delay:.1s}
+  .pkg-card:nth-child(3){animation-delay:.15s}
+  .pkg-card:nth-child(4){animation-delay:.2s}
+  .pkg-card:nth-child(5){animation-delay:.25s}
+  .pkg-card:nth-child(6){animation-delay:.3s}
+  .pkg-card:nth-child(7){animation-delay:.35s}
+  .pkg-card:nth-child(8){animation-delay:.4s}
+  .pkg-card:nth-child(9){animation-delay:.45s}
+  .pkg-card:nth-child(10){animation-delay:.5s}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">Elshadaiimpact</div>
+  <div class="tagline">Your Trusted Data Partner</div>
+</div>
+
+<div class="icons-row">📶 🌐 ⚡</div>
+
+<div class="subtitle">Affordable Data Packages</div>
+<div class="subtitle-sub">Select a package below to order instantly</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="summary-box">
+  <div class="summary-card">
+    <span class="summary-text" id="summaryText">Tap a package to select it</span>
+    <span class="summary-price" id="summaryPrice"></span>
+  </div>
+</div>
+
+<a class="wa-btn disabled" id="waBtn" href="#" target="_blank">
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 2C8.27 2 2 8.27 2 16c0 2.44.65 4.73 1.79 6.72L2 30l7.48-1.76A13.94 13.94 0 0016 30c7.73 0 14-6.27 14-14S23.73 2 16 2z" fill="#fff" fill-opacity=".2"/>
+    <path d="M16 4.5C9.6 4.5 4.5 9.6 4.5 16c0 2.2.6 4.27 1.65 6.06L4.5 27.5l5.6-1.62A11.46 11.46 0 0016 27.5c6.4 0 11.5-5.1 11.5-11.5S22.4 4.5 16 4.5zM21.6 20.44c-.24.67-1.4 1.28-1.93 1.36-.5.08-1.13.11-1.82-.12-.42-.14-.96-.33-1.65-.64-2.9-1.25-4.8-4.17-4.95-4.37-.14-.2-1.17-1.56-1.17-2.97s.74-2.1.99-2.39c.26-.28.56-.35.75-.35l.54.01c.17 0 .4-.07.63.48.24.57.8 1.97.87 2.12.07.14.12.31.02.5-.09.19-.14.3-.28.46-.14.17-.29.37-.42.5-.14.14-.28.3-.12.58.16.28.71 1.17 1.53 1.89 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.17-.19.7-.82.89-1.1.19-.28.37-.23.63-.14.26.09 1.65.78 1.93.92.28.14.47.21.54.33.07.12.07.67-.17 1.34z" fill="#fff"/>
+  </svg>
+  Order via WhatsApp
+</a>
+
+<div class="divider"></div>
+
+<div class="footer">
+  📞 <span>059 897 9254</span> &nbsp;|&nbsp; Fast delivery · Secure payment<br>
+  <span>Elshadaiimpact</span> · Kumasi, Ghana
+</div>
+
+<script>
+  const packages = [
+    { data: '1g',  price: 6 },
+    { data: '2g',  price: 12 },
+    { data: '3g',  price: 18 },
+    { data: '4g',  price: 22 },
+    { data: '5g',  price: 33 },
+    { data: '6g',  price: 38 },
+    { data: '7g',  price: 44 },
+    { data: '10g', price: 55 },
+    { data: '20g', price: 110 },
+    { data: '25g', price: 135 },
+  ];
+
+  const PHONE = '233598979254'; // Ghana number without +
+  let selected = null;
+
+  const grid = document.getElementById('grid');
+  const waBtn = document.getElementById('waBtn');
+  const summaryText = document.getElementById('summaryText');
+  const summaryPrice = document.getElementById('summaryPrice');
+
+  packages.forEach((pkg, i) => {
+    const card = document.createElement('div');
+    card.className = 'pkg-card';
+    card.innerHTML = `
+      <div class="check">✓</div>
+      <div class="pkg-data">${pkg.data.toUpperCase()}</div>
+      <div class="pkg-label">Data Bundle</div>
+      <div class="pkg-price">GH₵ ${pkg.price}</div>
+    `;
+    card.addEventListener('click', () => selectPkg(pkg, card));
+    grid.appendChild(card);
+  });
+
+  function selectPkg(pkg, card) {
+    document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selected = pkg;
+
+    summaryText.textContent = `${pkg.data.toUpperCase()} Data Bundle selected`;
+    summaryText.classList.add('active');
+    summaryPrice.textContent = `GH₵${pkg.price}`;
+
+    const msg = encodeURIComponent(
+      `Hello Elshadaiimpact! 👋\n\nI'd like to buy the *${pkg.data.toUpperCase()} Data Bundle* for *GH₵${pkg.price}*.\n\nPlease confirm availability and payment details. Thank you!`
+    );
+    waBtn.href = `https://wa.me/${PHONE}?text=${msg}`;
+    waBtn.classList.remove('disabled');
+  }
+</script>
+</body>
+</html>
